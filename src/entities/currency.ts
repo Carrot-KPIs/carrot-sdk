@@ -5,10 +5,10 @@ import invariant from 'tiny-invariant'
 
 export class Currency {
   public readonly decimals: BigNumber
-  public readonly symbol?: string
-  public readonly name?: string
+  public readonly symbol: string
+  public readonly name: string
 
-  protected constructor(decimals: BigNumber, symbol?: string, name?: string) {
+  protected constructor(decimals: BigNumber, symbol: string, name: string) {
     this.decimals = decimals
     this.symbol = symbol
     this.name = name
