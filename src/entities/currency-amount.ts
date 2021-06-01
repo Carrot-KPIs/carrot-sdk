@@ -1,24 +1,32 @@
 import { Currency, Token } from './currency'
 import invariant from 'tiny-invariant'
 import { BigNumber } from '@ethersproject/bignumber'
+import { Fraction } from './fraction'
 
-export class CurrencyAmount {
+export class CurrencyAmount extends Fraction {
   public readonly currency: Currency
-  public readonly amount: BigNumber // amount is in wei here
 
-  protected constructor(currency: Currency, amount: BigNumber) {
+  public constructor(currency: Currency, amount: BigNumber | Fraction) {
+    if (amount instanceof Fraction) {
+      super(amount.numerator, amount.denominator)
+    } else {
+      super(amount, BigNumber.from(10).pow(currency.decimals))
+    }
     this.currency = currency
-    this.amount = amount
   }
 
   public plus(other: CurrencyAmount): CurrencyAmount {
     invariant(this.currency.equals(other.currency), 'tried to sum different currencies')
-    return new CurrencyAmount(this.currency, this.amount.add(other.amount))
+    return new CurrencyAmount(this.currency, super.add(other))
   }
 
   public minus(other: CurrencyAmount): CurrencyAmount {
     invariant(this.currency.equals(other.currency), 'tried to subtract different currencies')
-    return new CurrencyAmount(this.currency, this.amount.sub(other.amount))
+    return new CurrencyAmount(this.currency, super.subtract(other))
+  }
+
+  public multiply(other: CurrencyAmount): CurrencyAmount {
+    return new CurrencyAmount(other.currency, super.multiply(other))
   }
 }
 

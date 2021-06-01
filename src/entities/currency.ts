@@ -8,10 +8,24 @@ export class Currency {
   public readonly symbol: string
   public readonly name: string
 
-  protected constructor(decimals: BigNumber, symbol: string, name: string) {
+  public static ETHER = new Currency(BigNumber.from(18), 'ETH', 'Ether')
+
+  public constructor(decimals: BigNumber, symbol: string, name: string) {
     this.decimals = decimals
     this.symbol = symbol
     this.name = name
+  }
+
+  public static getNative(chainId: ChainId): Currency {
+    switch (chainId) {
+      case ChainId.RINKEBY:
+      case ChainId.MAINNET: {
+        return Currency.ETHER
+      }
+      default: {
+        invariant(false, 'not a valid chain id when getting native currency')
+      }
+    }
   }
 
   public equals(other: Currency): boolean {
