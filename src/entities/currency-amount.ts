@@ -33,7 +33,7 @@ export class CurrencyAmount extends Fraction {
 export class TokenAmount extends CurrencyAmount {
   public readonly token: Token
 
-  public constructor(token: Token, amount: BigNumber) {
+  public constructor(token: Token, amount: BigNumber | Fraction) {
     super(token, amount)
     this.token = token
   }
