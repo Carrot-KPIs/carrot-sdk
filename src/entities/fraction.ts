@@ -43,6 +43,10 @@ export class Fraction {
     return this.numerator.mul(other.denominator).gt(other.numerator.mul(this.denominator))
   }
 
+  public isZero(): boolean {
+    return this.numerator.eq(0)
+  }
+
   public multiply(other: Fraction): Fraction {
     return new Fraction(this.numerator.mul(other.numerator), this.denominator.mul(other.denominator))
   }
