@@ -13,7 +13,7 @@ export class KpiToken extends Token {
   public readonly question: string
   public readonly lowerBound: BigNumber
   public readonly higherBound: BigNumber
-  public readonly finalResult: BigNumber
+  public readonly finalProgress: BigNumber
   public readonly expiresAt: DateTime
   public readonly finalized: boolean
   public readonly kpiReached: boolean
@@ -32,7 +32,7 @@ export class KpiToken extends Token {
     question: string,
     lowerBound: BigNumber,
     higherBound: BigNumber,
-    finalResult: BigNumber,
+    finalProgress: BigNumber,
     expiresAt: DateTime,
     finalized: boolean,
     kpiReached: boolean,
@@ -51,7 +51,7 @@ export class KpiToken extends Token {
     this.question = question
     this.lowerBound = lowerBound
     this.higherBound = higherBound
-    this.finalResult = finalResult
+    this.finalProgress = finalProgress
     this.expiresAt = expiresAt
     this.finalized = finalized
     this.kpiReached = kpiReached
@@ -61,9 +61,7 @@ export class KpiToken extends Token {
   }
 
   public get progressPercentage(): Decimal {
-    return new Decimal(this.lowerBound.toString())
-      .plus(this.finalResult.toString())
-      .dividedBy(this.higherBound.toString())
-      .times(100)
+    const kpiScalarRange = this.higherBound.sub(this.lowerBound)
+    return new Decimal(this.finalProgress.toString()).dividedBy(kpiScalarRange.toString()).times(100)
   }
 }
