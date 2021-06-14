@@ -12,7 +12,7 @@ export enum ChainId {
 
 export const FACTORY_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: ZERO_ADDRESS,
-  [ChainId.RINKEBY]: '0xa60c831dc30A6564Aa23044Ade594C2f1e3c9929',
+  [ChainId.RINKEBY]: '0x5e02B60e676CF965DEb29df522FE26f0c1d5d771',
 }
 
 export const REALITY_ADDRESS: { [chainId in ChainId]: string } = {
