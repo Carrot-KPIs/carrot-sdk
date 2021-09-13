@@ -9,6 +9,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": "https://github.com/levelkdev/dxswap-sdk.git",
   "module": "dist/sdk.esm.js",
   "scripts": {
