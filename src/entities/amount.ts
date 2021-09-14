@@ -1,6 +1,6 @@
 import { Currency, Token } from '@usedapp/core'
 import invariant from 'tiny-invariant'
-import { BigNumber, formatFixed, parseFixed } from '@ethersproject/bignumber'
+import { BigNumber, formatFixed } from '@ethersproject/bignumber'
 import Decimal from 'decimal.js-light'
 import { currenciesEqual, tokensEqual } from '../utils'
 
@@ -40,14 +40,14 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
   public multiply<M extends TokenOrCurrency>(other: Amount<M>): Amount<M> {
     return new Amount<M>(
       other.currency,
-      parseFixed(this.times(other).toFixed(other.currency.decimals), other.currency.decimals)
+      BigNumber.from(this.times(other).times(`1e${other.currency.decimals}`).toFixed(0))
     )
   }
 
   public divide<M extends TokenOrCurrency>(other: Amount<M>): Amount<M> {
     return new Amount<M>(
       other.currency,
-      parseFixed(this.dividedBy(other).toFixed(other.currency.decimals), other.currency.decimals)
+      BigNumber.from(this.dividedBy(other).times(`1e${other.currency.decimals}`).toFixed(0))
     )
   }
 }
