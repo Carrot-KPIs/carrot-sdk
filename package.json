@@ -24,20 +24,19 @@
   "dependencies": {
     "decimal.js-light": "^2.5.1",
     "luxon": "^1.27.0",
-    "tiny-invariant": "^1.1.0"
+    "tiny-invariant": "^1.1.0",
+    "tiny-warning": "^1.0.3"
   },
   "peerDependencies": {
     "@ethersproject/address": "^5.0.0-beta",
     "@ethersproject/bignumber": "^5.1.1",
-    "@ethersproject/constants": "^5.4.0",
-    "@usedapp/core": "^0.4.7"
+    "@ethersproject/constants": "^5.4.0"
   },
   "devDependencies": {
     "@ethersproject/address": "^5.4.0",
     "@ethersproject/bignumber": "^5.4.1",
     "@ethersproject/constants": "^5.4.0",
     "@types/luxon": "^1.26.5",
-    "@usedapp/core": "^0.4.7",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.4.0",

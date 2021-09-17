@@ -1,13 +1,13 @@
-import { Currency, Token } from '@usedapp/core'
+import { getAddress } from '@ethersproject/address'
+import invariant from 'tiny-invariant'
+import warning from 'tiny-warning'
 
-export function currenciesEqual(currency1: Currency, currency2: Currency): boolean {
-  return (
-    currency1.name === currency2.name &&
-    currency1.ticker === currency2.ticker &&
-    currency1.decimals === currency2.decimals
-  )
-}
-
-export function tokensEqual(token1: Token, token2: Token): boolean {
-  return token1.address === token2.address && token1.chainId === token2.chainId
+export function validateAndParseAddress(address: string): string {
+  try {
+    const checksummedAddress = getAddress(address)
+    warning(address === checksummedAddress, `${address} is not checksummed.`)
+    return checksummedAddress
+  } catch (error) {
+    invariant(false, `${address} is not a valid address.`)
+  }
 }

@@ -1,21 +1,10 @@
-import { Currency, Token } from '@usedapp/core'
+import { Token, currencyEquals } from './token'
+import { Currency } from './currency'
 import invariant from 'tiny-invariant'
 import { BigNumber, formatFixed } from '@ethersproject/bignumber'
 import Decimal from 'decimal.js-light'
-import { currenciesEqual, tokensEqual } from '../utils'
 
 type TokenOrCurrency = Token | Currency
-
-function tokenOrCurrencyEqual(tokenOrCurrency1: TokenOrCurrency, tokenOrCurrency2: TokenOrCurrency) {
-  return (
-    (tokenOrCurrency1 instanceof Token &&
-      tokenOrCurrency2 instanceof Token &&
-      tokensEqual(tokenOrCurrency1, tokenOrCurrency2)) ||
-    (tokenOrCurrency1 instanceof Currency &&
-      tokenOrCurrency2 instanceof Currency &&
-      currenciesEqual(tokenOrCurrency1, tokenOrCurrency2))
-  )
-}
 
 export class Amount<T extends TokenOrCurrency> extends Decimal {
   public readonly currency: T
@@ -28,12 +17,12 @@ export class Amount<T extends TokenOrCurrency> extends Decimal {
   }
 
   public plus(other: Amount<TokenOrCurrency>): Amount<T> {
-    invariant(tokenOrCurrencyEqual(this.currency, other.currency), 'tried to sum different currencies')
+    invariant(currencyEquals(this.currency, other.currency), 'tried to sum different currencies')
     return new Amount<T>(this.currency, this.raw.add(other.raw))
   }
 
   public minus(other: Amount<T>): Amount<T> {
-    invariant(tokenOrCurrencyEqual(this.currency, other.currency), 'tried to sum different currencies')
+    invariant(currencyEquals(this.currency, other.currency), 'tried to subtract different currencies')
     return new Amount<T>(this.currency, this.raw.sub(other.raw))
   }
 

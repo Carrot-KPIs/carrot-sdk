@@ -3,19 +3,10 @@ import invariant from 'tiny-invariant'
 import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
 import Decimal from 'decimal.js-light'
-import { ChainId, Token } from '@usedapp/core'
-import { tokensEqual } from '../utils'
-import { CurrencyFormatOptions, DEFAULT_OPTIONS, formatCurrency } from '@usedapp/core/dist/esm/src/model/formatting'
+import { ChainId } from '../constants'
+import { Token } from './token'
 
-export class KpiToken {
-  // token data
-  public readonly name: string
-  public readonly ticker: string
-  public readonly chainId: ChainId
-  public readonly address: string
-  public readonly decimals = 18
-  public readonly formattingOptions: CurrencyFormatOptions
-
+export class KpiToken extends Token {
   public readonly kpiId: string
   public readonly totalSupply: Amount<Token>
   public readonly oracle: string
@@ -49,19 +40,9 @@ export class KpiToken {
     collateral: Amount<Token>,
     fee: Amount<Token>
   ) {
-    this.name = name
-    this.ticker = symbol
-    this.chainId = chainId
-    this.address = address
-    this.formattingOptions = {
-      ...DEFAULT_OPTIONS,
-      suffix: ` ${this.ticker}`,
-      significantDigits: 4,
-      decimals: 18,
-    }
-
+    super(chainId, address, 18, symbol, name) // decimals are always 18 for kpi tokens
     invariant(collateral.currency.chainId === chainId, 'inconsistent chain id in collateral')
-    invariant(tokensEqual(fee.currency, collateral.currency), 'inconsistent collateral and fee token')
+    invariant(fee.currency.equals(collateral.currency), 'inconsistent collateral and fee token')
     invariant(fee.currency.chainId === chainId, 'inconsistent chain id in collateral')
     invariant(lowerBound.lt(higherBound), 'inconsistent scalar bounds')
     this.kpiId = kpiId
@@ -82,9 +63,5 @@ export class KpiToken {
   public get progressPercentage(): Decimal {
     const kpiScalarRange = this.higherBound.sub(this.lowerBound)
     return new Decimal(this.finalProgress.toString()).dividedBy(kpiScalarRange.toString()).times(100)
-  }
-
-  public format(value: string, overrideOptions: Partial<CurrencyFormatOptions> = {}) {
-    return formatCurrency({ ...this.formattingOptions, ...overrideOptions }, value)
   }
 }
