@@ -12,19 +12,9 @@
         "type": "address"
       },
       {
-        "internalType": "address",
-        "name": "_arbitrator",
-        "type": "address"
-      },
-      {
         "internalType": "uint16",
         "name": "_fee",
         "type": "uint16"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_voteTimeout",
-        "type": "uint32"
       },
       {
         "internalType": "address",
@@ -34,6 +24,66 @@
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidCollateralAmount",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidRealityExpiry",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidRealityQuestion",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidScalarRange",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidTokenName",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "InvalidTokenSymbol",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddressCollateralToken",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddressFeeReceiver",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddressKpiTokenImplementation",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddressOracle",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAddressRealityArbitrator",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroTotalSupply",
+    "type": "error"
   },
   {
     "anonymous": false,
@@ -80,29 +130,33 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "arbitrator",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "_kpiQuestion",
-        "type": "string"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_kpiExpiry",
-        "type": "uint32"
+        "components": [
+          {
+            "internalType": "string",
+            "name": "question",
+            "type": "string"
+          },
+          {
+            "internalType": "uint32",
+            "name": "expiry",
+            "type": "uint32"
+          },
+          {
+            "internalType": "uint32",
+            "name": "timeout",
+            "type": "uint32"
+          },
+          {
+            "internalType": "address",
+            "name": "arbitrator",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct KPITokensFactory.RealityConfig",
+        "name": "_realityConfig",
+        "type": "tuple"
       },
       {
         "components": [
@@ -241,19 +295,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_arbitrator",
-        "type": "address"
-      }
-    ],
-    "name": "setArbitrator",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint16",
         "name": "_fee",
         "type": "uint16"
@@ -273,19 +314,6 @@
       }
     ],
     "name": "setFeeReceiver",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32",
-        "name": "_voteTimeout",
-        "type": "uint32"
-      }
-    ],
-    "name": "setVoteTimeout",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -314,19 +342,6 @@
     "name": "upgradeKpiTokenImplementation",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "voteTimeout",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   }
 ]
