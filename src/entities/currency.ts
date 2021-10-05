@@ -10,6 +10,7 @@ export class Currency {
   public static readonly XDAI: Currency = new Currency('XDAI', 'xDAI', 18)
   private static readonly NATIVE_CURRENCY: { [chainId in ChainId]: Currency } = {
     [ChainId.RINKEBY]: Currency.ETHER,
+    [ChainId.XDAI]: Currency.XDAI,
   }
 
   protected constructor(symbol: string, name: string, decimals: number) {
