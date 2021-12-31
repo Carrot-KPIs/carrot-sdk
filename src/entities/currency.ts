@@ -9,6 +9,7 @@ export class Currency {
   public static readonly ETHER: Currency = new Currency('ETH', 'Ether', 18)
   public static readonly XDAI: Currency = new Currency('XDAI', 'xDAI', 18)
   private static readonly NATIVE_CURRENCY: { [chainId in ChainId]: Currency } = {
+    [ChainId.MAINNET]: Currency.ETHER,
     [ChainId.RINKEBY]: Currency.ETHER,
     [ChainId.XDAI]: Currency.XDAI,
   }

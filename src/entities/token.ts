@@ -7,6 +7,13 @@ export class Token extends Currency {
   public readonly address: string
 
   public static readonly WETH: { [key: number]: Token } = {
+    [ChainId.MAINNET]: new Token(
+      ChainId.RINKEBY,
+      '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2',
+      18,
+      'WETH',
+      'Wrapped Ether'
+    ),
     [ChainId.RINKEBY]: new Token(
       ChainId.RINKEBY,
       '0xc778417E063141139Fce010982780140Aa0cD5Ab',
@@ -28,6 +35,7 @@ export class Token extends Currency {
   }
 
   private static readonly NATIVE_CURRENCY_WRAPPER: { [chainId in ChainId]: Token } = {
+    [ChainId.MAINNET]: Token.WETH[ChainId.MAINNET],
     [ChainId.RINKEBY]: Token.WETH[ChainId.RINKEBY],
     [ChainId.XDAI]: Token.WXDAI[ChainId.XDAI],
   }
