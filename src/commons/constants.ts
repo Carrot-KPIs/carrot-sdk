@@ -1,13 +1,22 @@
-import FACTORY_ABI from './abis/factory.json'
-import ERC20_ABI from './abis/erc20.json'
-import REALITY_ABI from './abis/reality.json'
-import KPI_TOKEN_ABI from './abis/kpi-token.json'
-import PERMISSIVE_MULTICALL_ABI from './abis/permissive-multicall.json'
+import FACTORY_ABI from '../abis/factory.json'
+import ERC20_ABI from '../abis/erc20.json'
+import REALITY_ABI from '../abis/reality.json'
+import KPI_TOKEN_ABI from '../abis/kpi-token.json'
+import PERMISSIVE_MULTICALL_ABI from '../abis/permissive-multicall.json'
+
+const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
+const POCKET_ID = '61d8970ca065f5003a112e86'
 
 export enum ChainId {
   MAINNET = 1,
   RINKEBY = 4,
   XDAI = 100,
+}
+
+export const RPC_URL: { [chainId: number]: string } = {
+  [ChainId.MAINNET]: `https://eth-mainnet.gateway.pokt.network/v1/lb/${POCKET_ID}`,
+  [ChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
+  [ChainId.XDAI]: `https://poa-xdai.gateway.pokt.network/v1/lb/${POCKET_ID}`,
 }
 
 export const FACTORY_ADDRESS: { [chainId in ChainId]: string } = {

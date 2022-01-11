@@ -33,20 +33,23 @@
     "@ethersproject/constants": "^5.5.0",
     "@ethersproject/contracts": "^5.5.0",
     "@ethersproject/providers": "^5.5.1",
-    "luxon": "^2.2.0"
+    "luxon": "^2.3.0"
   },
   "devDependencies": {
+    "@apollo/client": "^3.5.7",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/bignumber": "^5.5.0",
     "@ethersproject/constants": "^5.5.0",
     "@ethersproject/contracts": "^5.5.0",
-    "@ethersproject/providers": "^5.5.1",
-    "@types/luxon": "^2.0.8",
-    "eslint": "^7.32.0",
+    "@ethersproject/providers": "^5.5.2",
+    "@ethersproject/units": "^5.5.0",
+    "@types/luxon": "^2.0.9",
+    "eslint": "^8.6.0",
     "eslint-config-prettier": "^8.3.0",
-    "luxon": "^2.2.0",
+    "graphql": "^16.2.0",
+    "luxon": "^2.3.0",
     "prettier": "^2.5.1",
-    "tsdx": "^0.12.3"
+    "tsdx": "^0.14.1"
   }
 }

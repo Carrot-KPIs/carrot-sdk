@@ -3,7 +3,7 @@ import invariant from 'tiny-invariant'
 import { BigNumber } from '@ethersproject/bignumber'
 import { DateTime } from 'luxon'
 import Decimal from 'decimal.js-light'
-import { ChainId } from '../constants'
+import { ChainId } from '../commons/constants'
 import { Token } from './token'
 
 export class KpiToken extends Token {

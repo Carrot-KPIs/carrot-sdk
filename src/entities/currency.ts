@@ -1,4 +1,4 @@
-import { ChainId } from '../constants'
+import { ChainId } from '../commons/constants'
 
 export class Currency {
   public readonly decimals: number

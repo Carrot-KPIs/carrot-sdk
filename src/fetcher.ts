@@ -1,13 +1,13 @@
 import { Contract } from '@ethersproject/contracts'
 import { BaseProvider } from '@ethersproject/providers'
 import { Interface } from '@ethersproject/abi'
-import { PERMISSIVE_MULTICALL_ADDRESS, PERMISSIVE_MULTICALL_ABI } from './constants'
-import { Token } from './entities'
+import { PERMISSIVE_MULTICALL_ADDRESS, PERMISSIVE_MULTICALL_ABI } from './commons/constants'
+import { Token } from './entities/token'
 import ERC20_ABI from './abis/erc20.json'
 import BYTES_NAME_ERC20_ABI from './abis/erc20-name-bytes.json'
 import BYTES_SYMBOL_ERC20_ABI from './abis/erc20-symbol-bytes.json'
 import invariant from 'tiny-invariant'
-import { ChainId } from './constants'
+import { ChainId } from './commons/constants'
 
 const TOKEN_CACHE: { [chainId in ChainId]: { [address: string]: Token } } = {
   [ChainId.MAINNET]: {},

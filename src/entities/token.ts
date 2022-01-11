@@ -1,6 +1,7 @@
 import { validateAndParseAddress } from '../utils'
-import { ChainId } from '../constants'
+import { ChainId } from '../commons/constants'
 import { Currency } from './currency'
+import { Amount } from '..'
 
 export class Token extends Currency {
   public readonly chainId: ChainId
@@ -52,6 +53,26 @@ export class Token extends Currency {
 
   public static getNativeWrapper(chainId: ChainId): Token {
     return Token.NATIVE_CURRENCY_WRAPPER[chainId]
+  }
+}
+
+export class TotalSupplyToken extends Token {
+  private readonly getTotalSupply: (token: Token) => Promise<Amount<Token>>
+
+  constructor(
+    chainId: ChainId,
+    address: string,
+    decimals: number,
+    symbol: string,
+    name: string,
+    totalSupplyGetterLogic: (token: Token) => Promise<Amount<Token>>
+  ) {
+    super(chainId, address, decimals, symbol, name)
+    this.getTotalSupply = totalSupplyGetterLogic
+  }
+
+  public async totalSupply(): Promise<Amount<Token>> {
+    return this.getTotalSupply(this)
   }
 }
 
