@@ -7,10 +7,11 @@ import { Token, TotalSupplyToken } from '../../entities/token'
 import { Currency } from '../../entities/currency'
 import { Amount } from '../../entities/amount'
 import { ChainId } from '../../commons/constants'
-import { getTimestampsFromRange, getBlocksFromTimestamps } from '../../utils'
+import { getTimestampsFromRange } from '../../utils'
 import { DexPlatform } from './abstraction/dex'
 import { TokenPricePlatform } from './abstraction/token-price'
 import { ChartDataPoint } from '../chart-data-point'
+import { Fetcher } from '../../fetcher'
 
 export class Honeyswap implements DexPlatform {
   get name(): string {
@@ -31,7 +32,7 @@ export class Honeyswap implements DexPlatform {
     if (!subgraph) throw new Error('could not get honeyswap subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     const [token0, token1] =
@@ -78,7 +79,7 @@ export class Honeyswap implements DexPlatform {
     if (!subgraph) throw new Error('could not get honeyswap subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     let { data } = await subgraph.query<{
@@ -115,7 +116,7 @@ export class Honeyswap implements DexPlatform {
     if (!subgraph) throw new Error('could not get honeyswap subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     if (Token.getNativeWrapper(chainId).equals(token)) {
@@ -217,7 +218,7 @@ export class Honeyswap implements DexPlatform {
     if (!subgraph) throw new Error('could not get honeyswap subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     const { data: tokenPriceNativeCurrencyData } = await subgraph.query<{

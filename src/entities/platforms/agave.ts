@@ -9,10 +9,11 @@ import { ChainId } from '../../commons/constants'
 import { Currency } from '../../entities/currency'
 import { Token } from '../../entities/token'
 import { Amount } from '../../entities/amount'
-import { getTimestampsFromRange, getBlocksFromTimestamps } from '../../utils'
+import { getTimestampsFromRange } from '../../utils'
 import { TvlPlatform } from './abstraction/tvl'
 import { TokenPricePlatform } from './abstraction/token-price'
 import { ChartDataPoint } from '../chart-data-point'
+import { Fetcher } from '../../fetcher'
 
 interface Reserve {
   price: { priceInEth: string }
@@ -42,7 +43,7 @@ export class Agave implements TvlPlatform {
     if (!subgraph) throw new Error('could not get agave subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     const { data: agaveTvlData } = await subgraph.query<{

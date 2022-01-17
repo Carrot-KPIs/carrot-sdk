@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { getBlocksFromTimestamps, getTimestampsFromRange } from '../../utils'
+import { getTimestampsFromRange } from '../../utils'
 import { gql } from '@apollo/client'
 import { SWAPR_SUBGRAPH_CLIENT } from '../../commons/graphql'
 import { parseUnits } from '@ethersproject/units'
@@ -12,6 +12,7 @@ import { Amount } from '../../entities/amount'
 import { DexPlatform } from './abstraction/dex'
 import { TokenPricePlatform } from './abstraction/token-price'
 import { ChartDataPoint } from '../chart-data-point'
+import { Fetcher } from '../../fetcher'
 
 export class Swapr implements DexPlatform {
   get name(): string {
@@ -32,7 +33,7 @@ export class Swapr implements DexPlatform {
     if (!subgraph) throw new Error('could not get swapr subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     const [token0, token1] =
@@ -79,7 +80,7 @@ export class Swapr implements DexPlatform {
     if (!subgraph) throw new Error('could not get swapr subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     let { data } = await subgraph.query<{
@@ -116,7 +117,7 @@ export class Swapr implements DexPlatform {
     if (!subgraph) throw new Error('could not get swapr subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     if (Token.getNativeWrapper(chainId).equals(token)) {
@@ -221,7 +222,7 @@ export class Swapr implements DexPlatform {
     if (!subgraph) throw new Error('could not get honeyswap subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     const { data: tokenPriceNativeCurrencyData } = await subgraph.query<{

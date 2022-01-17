@@ -8,10 +8,11 @@ import { gql } from '@apollo/client'
 import Decimal from 'decimal.js-light'
 import { parseEther } from '@ethersproject/units'
 import { BigNumber } from '@ethersproject/bignumber'
-import { getTimestampsFromRange, getBlocksFromTimestamps } from '../../utils'
+import { getTimestampsFromRange } from '../../utils'
 import { TvlPlatform } from './abstraction/tvl'
 import { TokenPricePlatform } from './abstraction/token-price'
 import { ChartDataPoint } from '../chart-data-point'
+import { Fetcher } from '../../fetcher'
 
 export class Mochi implements TokenPricePlatform, TvlPlatform {
   get name(): string {
@@ -27,7 +28,7 @@ export class Mochi implements TokenPricePlatform, TvlPlatform {
     if (!subgraph) throw new Error('could not get mochi subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     const { data: tokenPrices } = await subgraph.query<{
@@ -63,7 +64,7 @@ export class Mochi implements TokenPricePlatform, TvlPlatform {
     if (!subgraph) throw new Error('could not get mochi subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
-    const blocks = await getBlocksFromTimestamps(chainId, timestamps)
+    const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
     if (blocks.length === 0) return []
 
     let { data } = await subgraph.query<{

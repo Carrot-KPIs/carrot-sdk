@@ -8,6 +8,8 @@ import BYTES_NAME_ERC20_ABI from './abis/erc20-name-bytes.json'
 import BYTES_SYMBOL_ERC20_ABI from './abis/erc20-symbol-bytes.json'
 import invariant from 'tiny-invariant'
 import { ChainId } from './commons/constants'
+import { BLOCK_SUBGRAPH_CLIENTS } from './commons/graphql'
+import { gql } from '@apollo/client'
 
 const TOKEN_CACHE: { [chainId in ChainId]: { [address: string]: Token } } = {
   [ChainId.MAINNET]: {},
@@ -124,5 +126,46 @@ export abstract class Fetcher {
     }, {})
 
     return { ...cachedTokens, ...fetchedTokens }
+  }
+
+  public static blocksFromTimestamps = async (
+    chainId: ChainId,
+    timestamps: number[]
+  ): Promise<{ number: number; timestamp: number }[]> => {
+    if (!timestamps || timestamps.length === 0) return []
+
+    const blocksSubgraph = BLOCK_SUBGRAPH_CLIENTS[chainId]
+    if (!blocksSubgraph) return []
+
+    const promises = timestamps.map((timestamp) =>
+      blocksSubgraph.query<{
+        [timestampString: string]: { number: string }[]
+      }>({
+        query: gql`
+          query blocks {
+              t${timestamp}: blocks(
+                first: 1
+                orderBy: number
+                orderDirection: asc
+                where: { timestamp_gt: ${Math.floor(timestamp / 1000)} }
+              ) {
+              number
+            }
+          }
+        `,
+      })
+    )
+
+    return (await Promise.all(promises)).reduce((accumulator: { timestamp: number; number: number }[], { data }) => {
+      for (const [timestampString, blocks] of Object.entries(data)) {
+        if (blocks.length > 0) {
+          accumulator.push({
+            timestamp: parseInt(timestampString.substring(1)),
+            number: parseInt(blocks[0].number),
+          })
+        }
+      }
+      return accumulator
+    }, [])
   }
 }
