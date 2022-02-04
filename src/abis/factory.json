@@ -2,292 +2,27 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_kpiTokenImplementation",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_oracle",
-        "type": "address"
-      },
-      {
-        "internalType": "uint16",
-        "name": "_fee",
-        "type": "uint16"
-      },
-      {
-        "internalType": "address",
-        "name": "_feeReceiver",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidCollateralAmount",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidRealityExpiry",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidRealityQuestion",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidScalarRange",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidTokenName",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidTokenSymbol",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddressCollateralToken",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddressFeeReceiver",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddressKpiTokenImplementation",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddressOracle",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddressRealityArbitrator",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroTotalSupply",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "kpiToken",
-        "type": "address"
-      },
-      {
-        "indexed": false,
         "internalType": "uint256",
-        "name": "feeAmount",
+        "name": "_id",
         "type": "uint256"
       },
       {
-        "indexed": false,
-        "internalType": "uint32",
-        "name": "kpiExpiry",
-        "type": "uint32"
-      }
-    ],
-    "name": "KpiTokenCreated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
+        "internalType": "string",
+        "name": "_description",
+        "type": "string"
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "question",
-            "type": "string"
-          },
-          {
-            "internalType": "uint32",
-            "name": "expiry",
-            "type": "uint32"
-          },
-          {
-            "internalType": "uint32",
-            "name": "timeout",
-            "type": "uint32"
-          },
-          {
-            "internalType": "address",
-            "name": "arbitrator",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct KPITokensFactory.RealityConfig",
-        "name": "_realityConfig",
-        "type": "tuple"
+        "internalType": "bytes",
+        "name": "_initializationData",
+        "type": "bytes"
       },
       {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "token",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IKPIToken.Collateral",
-        "name": "_collateral",
-        "type": "tuple"
-      },
-      {
-        "components": [
-          {
-            "internalType": "string",
-            "name": "name",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "symbol",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "totalSupply",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IKPIToken.TokenData",
-        "name": "_tokenData",
-        "type": "tuple"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "lowerBound",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "higherBound",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IKPIToken.ScalarData",
-        "name": "_scalarData",
-        "type": "tuple"
+        "internalType": "bytes",
+        "name": "_oraclesInitializationData",
+        "type": "bytes"
       }
     ],
-    "name": "createKpiToken",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "fee",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "",
-        "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "feeReceiver",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "kpiTokenImplementation",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "oracle",
-    "outputs": [
-      {
-        "internalType": "contract IReality",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
+    "name": "createToken",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -295,14 +30,44 @@
   {
     "inputs": [
       {
-        "internalType": "uint16",
-        "name": "_fee",
-        "type": "uint16"
+        "internalType": "address",
+        "name": "_address",
+        "type": "address"
       }
     ],
-    "name": "setFee",
-    "outputs": [],
+    "name": "created",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_fromIndex",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_toIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "enumerate",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -322,26 +87,26 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "newOwner",
+        "name": "_kpiTokensManager",
         "type": "address"
       }
     ],
-    "name": "transferOwnership",
+    "name": "setKpiTokensManager",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "size",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "_kpiTokenImplementation",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
-    "name": "upgradeKpiTokenImplementation",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   }
 ]

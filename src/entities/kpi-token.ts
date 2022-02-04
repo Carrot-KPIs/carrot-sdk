@@ -1,67 +1,91 @@
-import { Amount } from './amount'
-import invariant from 'tiny-invariant'
 import { BigNumber } from '@ethersproject/bignumber'
-import { DateTime } from 'luxon'
-import Decimal from 'decimal.js-light'
+import { KpiTokenTemplateSpecification } from './template-specification'
+import { Amount } from './amount'
 import { ChainId } from '../commons/constants'
+import { Oracle } from './oracle'
 import { Token } from './token'
+import { TvlPlatform } from '..'
+import { TokenMarketCapPlatform } from './platforms/abstraction/token-market-cap'
+import { TokenPricePlatform } from './platforms/abstraction/token-price'
 
-export class KpiToken extends Token {
-  public readonly kpiId: string
-  public readonly totalSupply: Amount<Token>
-  public readonly oracle: string
-  public readonly question: string
-  public readonly lowerBound: BigNumber
-  public readonly higherBound: BigNumber
-  public readonly finalProgress: BigNumber
-  public readonly expiresAt: DateTime
-  public readonly finalized: boolean
-  public readonly kpiReached: boolean
-  public readonly creator: string
-  public readonly collateral: Amount<Token>
-  public readonly fee: Amount<Token>
+enum Widget {
+  TOKEN_MARKET_CAP,
+  TOKEN_PRICE,
+  TVL,
+}
 
+interface BaseFrontendWidgetDetails {
+  from: number
+  to: number
+  granularity: number
+}
+
+interface TokenMarketCapDetails extends BaseFrontendWidgetDetails {
+  tokenAddress: string
+  pricingPlatform: TokenMarketCapPlatform
+}
+
+interface TokenPriceDetails extends BaseFrontendWidgetDetails {
+  tokenAddress: string
+  pricingPlatform: TokenPricePlatform
+}
+
+interface TvlDetails extends BaseFrontendWidgetDetails {
+  pricingPlatform: TokenPricePlatform
+  platform: TvlPlatform
+}
+
+type WidgetDetails<T extends Widget> = T extends Widget.TOKEN_MARKET_CAP
+  ? TokenMarketCapDetails
+  : T extends Widget.TOKEN_PRICE
+  ? TokenPriceDetails
+  : T extends Widget.TVL
+  ? TvlDetails
+  : never
+
+interface WidgetSpecification {
+  type: Widget
+  details: WidgetDetails<WidgetSpecification['type']>
+}
+
+export interface KpiTokenDescription {
+  title: string
+  description: string
+  tags: string[]
+  widgets: WidgetSpecification[]
+}
+
+export enum KpiTokenDataType {
+  ERC20,
+}
+
+export interface Erc20KpiTokenData {
+  type: KpiTokenDataType.ERC20
+  collaterals: Amount<Token>[]
+  minimumPayouts: Amount<Token>[]
+  oracles: {
+    lowerBound: BigNumber
+    higherBound: BigNumber
+    finalProgress: BigNumber
+    weight: BigNumber
+  }[]
+  andRelationship: boolean
+  initialSupply: BigNumber
+  name: string
+  symbol: string
+}
+
+export type KpiTokenData = Erc20KpiTokenData
+
+export class KpiToken {
   constructor(
-    chainId: ChainId,
-    address: string,
-    symbol: string,
-    name: string,
-    kpiId: string,
-    totalSupply: BigNumber,
-    oracle: string,
-    question: string,
-    lowerBound: BigNumber,
-    higherBound: BigNumber,
-    finalProgress: BigNumber,
-    expiresAt: DateTime,
-    finalized: boolean,
-    kpiReached: boolean,
-    creator: string,
-    collateral: Amount<Token>,
-    fee: Amount<Token>
-  ) {
-    super(chainId, address, 18, symbol, name) // decimals are always 18 for kpi tokens
-    invariant(collateral.currency.chainId === chainId, 'inconsistent chain id in collateral')
-    invariant(fee.currency.equals(collateral.currency), 'inconsistent collateral and fee token')
-    invariant(fee.currency.chainId === chainId, 'inconsistent chain id in collateral')
-    invariant(lowerBound.lt(higherBound), 'inconsistent scalar bounds')
-    this.kpiId = kpiId
-    this.totalSupply = new Amount<Token>(this, totalSupply)
-    this.oracle = oracle
-    this.question = question
-    this.lowerBound = lowerBound
-    this.higherBound = higherBound
-    this.finalProgress = finalProgress
-    this.expiresAt = expiresAt
-    this.finalized = finalized
-    this.kpiReached = kpiReached
-    this.creator = creator
-    this.collateral = collateral
-    this.fee = fee
-  }
-
-  public get progressPercentage(): Decimal {
-    const kpiScalarRange = this.higherBound.sub(this.lowerBound)
-    return new Decimal(this.finalProgress.toString()).dividedBy(kpiScalarRange.toString()).times(100)
-  }
+    public readonly chainId: ChainId,
+    public readonly address: string,
+    public readonly templateId: number,
+    public readonly templateSpecification: KpiTokenTemplateSpecification,
+    public readonly oracles: Oracle[],
+    public readonly description: KpiTokenDescription,
+    public readonly finalized: boolean,
+    public readonly data: KpiTokenData
+  ) {}
 }

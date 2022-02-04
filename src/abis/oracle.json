@@ -1,31 +1,5 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_feeReceiver",
-        "type": "address"
-      }
-    ],
-    "name": "collectProtocolFees",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "creator",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "data",
     "outputs": [
@@ -40,32 +14,6 @@
   },
   {
     "inputs": [],
-    "name": "description",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_result",
-        "type": "uint256"
-      }
-    ],
-    "name": "finalize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "finalized",
     "outputs": [
       {
@@ -74,14 +22,14 @@
         "type": "bool"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "address",
-        "name": "_creator",
+        "name": "_kpiToken",
         "type": "address"
       },
       {
@@ -103,22 +51,22 @@
           },
           {
             "internalType": "bool",
+            "name": "automatable",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
             "name": "exists",
             "type": "bool"
           }
         ],
-        "internalType": "struct IKPITokensManager.Template",
+        "internalType": "struct IOraclesManager.Template",
         "name": "_template",
         "type": "tuple"
       },
       {
-        "internalType": "string",
-        "name": "_description",
-        "type": "string"
-      },
-      {
         "internalType": "bytes",
-        "name": "_data",
+        "name": "_initializationData",
         "type": "bytes"
       }
     ],
@@ -128,59 +76,15 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "kpiToken",
+    "outputs": [
       {
         "internalType": "address",
-        "name": "_oraclesManager",
+        "name": "",
         "type": "address"
-      },
-      {
-        "internalType": "bytes",
-        "name": "_data",
-        "type": "bytes"
       }
     ],
-    "name": "initializeOracles",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "oracles",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes",
-        "name": "_data",
-        "type": "bytes"
-      }
-    ],
-    "name": "protocolFee",
-    "outputs": [
-      {
-        "internalType": "bytes",
-        "name": "",
-        "type": "bytes"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "redeem",
-    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -207,11 +111,16 @@
           },
           {
             "internalType": "bool",
+            "name": "automatable",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
             "name": "exists",
             "type": "bool"
           }
         ],
-        "internalType": "struct IKPITokensManager.Template",
+        "internalType": "struct IOraclesManager.Template",
         "name": "",
         "type": "tuple"
       }

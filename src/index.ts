@@ -21,8 +21,11 @@ export * from './entities/amount'
 export * from './entities/chart-data-point'
 export * from './entities/currency'
 export * from './entities/kpi-token'
+export * from './entities/oracle'
+export * from './entities/template-specification'
 export * from './entities/token'
 
 export * from './utils'
 
+export * from './decoder'
 export * from './fetcher'
