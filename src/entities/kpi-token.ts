@@ -57,6 +57,7 @@ export interface KpiTokenDescription {
 
 export enum KpiTokenDataType {
   ERC20,
+  AAVE_ERC20,
 }
 
 export interface Erc20KpiTokenData {
@@ -75,7 +76,24 @@ export interface Erc20KpiTokenData {
   symbol: string
 }
 
-export type KpiTokenData = Erc20KpiTokenData
+export interface AaveErc20KpiTokenData {
+  type: KpiTokenDataType.AAVE_ERC20
+  collaterals: Amount<Token>[]
+  minimumPayouts: Amount<Token>[]
+  aTokens: Amount<Token>[]
+  oracles: {
+    lowerBound: BigNumber
+    higherBound: BigNumber
+    finalProgress: BigNumber
+    weight: BigNumber
+  }[]
+  andRelationship: boolean
+  initialSupply: BigNumber
+  name: string
+  symbol: string
+}
+
+export type KpiTokenData = Erc20KpiTokenData | AaveErc20KpiTokenData
 
 export class KpiToken {
   constructor(

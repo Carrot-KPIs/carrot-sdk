@@ -7,6 +7,7 @@ import { Fetcher } from './fetcher'
 import { KpiTokenData, KpiTokenDataType } from './entities/kpi-token'
 import { ChainId } from './commons/constants'
 
+// FIXME: using maps might clean this up
 export abstract class Decoder {
   private constructor() {}
 
@@ -108,6 +109,74 @@ export abstract class Decoder {
           type: KpiTokenDataType.ERC20,
           collaterals,
           minimumPayouts,
+          oracles,
+          andRelationship,
+          initialSupply,
+          name,
+          symbol,
+        }
+      }
+      case 1: {
+        const [
+          collateralTokenAddresses,
+          collateralAmounts,
+          collateralMinimumPayouts,
+          aTokenAddresses,
+          lowerBounds,
+          higherBounds,
+          finalProgresses,
+          weights,
+          andRelationship,
+          initialSupply,
+          name,
+          symbol,
+        ] = defaultAbiCoder.decode(
+          [
+            'address[]',
+            'uint256[]',
+            'uint256[]',
+            'address[]',
+            'uint256[]',
+            'uint256[]',
+            'uint256[]',
+            'uint256[]',
+            'bool',
+            'uint256',
+            'string',
+            'string',
+          ],
+          data
+        )
+
+        const tokens = await Fetcher.fetchErc20Tokens(
+          chainId,
+          [...collateralTokenAddresses, ...aTokenAddresses],
+          provider
+        )
+        const collaterals: Amount<Token>[] = []
+        const aTokens: Amount<Token>[] = []
+        const minimumPayouts: Amount<Token>[] = []
+        for (let i = 0; i < collateralTokenAddresses.length; i++) {
+          const collateralToken = tokens[collateralTokenAddresses[i]]
+          collaterals.push(new Amount(collateralToken, collateralAmounts[i]))
+          aTokens.push(new Amount(tokens[aTokenAddresses[i]], collateralAmounts[i]))
+          minimumPayouts.push(new Amount(collateralToken, collateralMinimumPayouts[i]))
+        }
+
+        const oracles = []
+        for (let i = 0; i < lowerBounds.length; i++)
+          oracles.push({
+            lowerBound: lowerBounds[i],
+            higherBound: higherBounds[i],
+            finalProgress: finalProgresses[i],
+            weight: weights[i],
+          })
+
+        return {
+          type: KpiTokenDataType.AAVE_ERC20,
+          collaterals,
+          minimumPayouts,
+          aTokens,
           oracles,
           andRelationship,
           initialSupply,
