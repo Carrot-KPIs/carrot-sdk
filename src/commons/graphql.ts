@@ -34,6 +34,13 @@ export const HONEYSWAP_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<Normal
   }),
 }
 
+export const UNISWAP_V2_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
+  [ChainId.MAINNET]: new ApolloClient({
+    uri: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
+    cache: new InMemoryCache(),
+  }),
+}
+
 export const AGAVE_SUBGRAPH_CLIENT: { [chainId: number]: ApolloClient<NormalizedCacheObject> } = {
   [ChainId.RINKEBY]: new ApolloClient({
     uri: 'https://api.thegraph.com/subgraphs/name/pjcolombo/agave-rinkeby',
