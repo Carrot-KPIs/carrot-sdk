@@ -16,6 +16,7 @@ export * from './entities/platforms/agave'
 export * from './entities/platforms/honeyswap'
 export * from './entities/platforms/mochi'
 export * from './entities/platforms/swapr'
+export * from './entities/platforms/uniswap-v2'
 
 export * from './entities/amount'
 export * from './entities/chart-data-point'

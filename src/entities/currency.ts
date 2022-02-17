@@ -11,7 +11,7 @@ export class Currency {
   private static readonly NATIVE_CURRENCY: { [chainId in ChainId]: Currency } = {
     [ChainId.MAINNET]: Currency.ETHER,
     [ChainId.RINKEBY]: Currency.ETHER,
-    [ChainId.XDAI]: Currency.XDAI,
+    [ChainId.GNOSIS]: Currency.XDAI,
   }
 
   protected constructor(symbol: string, name: string, decimals: number) {

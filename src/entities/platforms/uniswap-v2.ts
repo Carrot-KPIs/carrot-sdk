@@ -1,11 +1,11 @@
 import { DateTime } from 'luxon'
 import { gql } from '@apollo/client'
-import { HONEYSWAP_SUBGRAPH_CLIENT } from '../../commons/graphql'
+import { UNISWAP_V2_SUBGRAPH_CLIENT } from '../../commons/graphql'
 import { parseUnits } from '@ethersproject/units'
 import Decimal from 'decimal.js-light'
-import { Token, TotalSupplyToken } from '../../entities/token'
-import { Currency } from '../../entities/currency'
-import { Amount } from '../../entities/amount'
+import { Token, TotalSupplyToken } from '../token'
+import { Currency } from '../currency'
+import { Amount } from '../amount'
 import { ChainId } from '../../commons/constants'
 import { getTimestampsFromRange } from '../../utils'
 import { DexPlatform } from './abstraction/dex'
@@ -13,9 +13,9 @@ import { TokenPricePlatform } from './abstraction/token-price'
 import { ChartDataPoint } from '../chart-data-point'
 import { Fetcher } from '../../fetcher'
 
-export class Honeyswap implements DexPlatform {
+export class UniswapV2 implements DexPlatform {
   get name(): string {
-    return 'Honeyswap'
+    return 'Uniswap v2'
   }
 
   public async pairTvl(
@@ -26,10 +26,10 @@ export class Honeyswap implements DexPlatform {
     granularity: number
   ): Promise<ChartDataPoint[]> {
     if (tokenA.chainId !== tokenB.chainId || !this.supportsChain(tokenA.chainId))
-      throw new Error('tried to get honeyswap pair day tvl data on an invalid chain')
+      throw new Error('tried to get uniswap v2 pair day tvl data on an invalid chain')
     const chainId = tokenA.chainId
-    const subgraph = HONEYSWAP_SUBGRAPH_CLIENT[chainId]
-    if (!subgraph) throw new Error('could not get honeyswap subgraph client')
+    const subgraph = UNISWAP_V2_SUBGRAPH_CLIENT[chainId]
+    if (!subgraph) throw new Error('could not get uniswap v2 subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
     const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
@@ -74,9 +74,10 @@ export class Honeyswap implements DexPlatform {
     to: DateTime,
     granularity: number
   ): Promise<ChartDataPoint[]> {
-    if (!this.supportsChain(chainId)) throw new Error('tried to get honeyswap overall day tvl data on an invalid chain')
-    const subgraph = HONEYSWAP_SUBGRAPH_CLIENT[chainId]
-    if (!subgraph) throw new Error('could not get honeyswap subgraph client')
+    if (!this.supportsChain(chainId))
+      throw new Error('tried to get uniswap v2 overall day tvl data on an invalid chain')
+    const subgraph = UNISWAP_V2_SUBGRAPH_CLIENT[chainId]
+    if (!subgraph) throw new Error('could not get uniswap v2 subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
     const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
@@ -109,11 +110,11 @@ export class Honeyswap implements DexPlatform {
 
   public async tokenPrice(token: Token, from: DateTime, to: DateTime, granularity: number): Promise<ChartDataPoint[]> {
     const chainId = token.chainId
-    if (!this.supportsChain(chainId)) throw new Error('tried to get honeyswap token price data on an invalid chain')
+    if (!this.supportsChain(chainId)) throw new Error('tried to get uniswap v2 token price data on an invalid chain')
     const nativeCurrency = Currency.getNative(chainId)
     if (!nativeCurrency) throw new Error(`no native currency for chain id ${chainId}`)
-    const subgraph = HONEYSWAP_SUBGRAPH_CLIENT[chainId]
-    if (!subgraph) throw new Error('could not get honeyswap subgraph client')
+    const subgraph = UNISWAP_V2_SUBGRAPH_CLIENT[chainId]
+    if (!subgraph) throw new Error('could not get uniswap v2 subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
     const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
@@ -210,12 +211,12 @@ export class Honeyswap implements DexPlatform {
     granularity: number
   ): Promise<ChartDataPoint[]> {
     const chainId = token.chainId
-    if (!this.supportsChain(chainId)) throw new Error('tried to get honeyswap token mcap data on an invalid chain')
+    if (!this.supportsChain(chainId)) throw new Error('tried to get uniswap v2 token mcap data on an invalid chain')
     if (Token.getNativeWrapper(chainId).equals(token)) throw new Error('cannot get mcap of native currency')
     const nativeCurrency = Currency.getNative(chainId)
     if (!nativeCurrency) throw new Error(`no native currency for chain id ${chainId}`)
-    const subgraph = HONEYSWAP_SUBGRAPH_CLIENT[chainId]
-    if (!subgraph) throw new Error('could not get honeyswap subgraph client')
+    const subgraph = UNISWAP_V2_SUBGRAPH_CLIENT[chainId]
+    if (!subgraph) throw new Error('could not get uniswap v2 subgraph client')
 
     const timestamps = getTimestampsFromRange(from, to, granularity)
     const blocks = await Fetcher.blocksFromTimestamps(chainId, timestamps)
@@ -277,6 +278,6 @@ export class Honeyswap implements DexPlatform {
   }
 
   public supportsChain(chainId: ChainId): boolean {
-    return chainId === ChainId.GNOSIS
+    return chainId === ChainId.MAINNET
   }
 }

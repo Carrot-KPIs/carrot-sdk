@@ -117,6 +117,6 @@ export class Agave implements TvlPlatform {
   }
 
   public supportsChain(chainId: ChainId): boolean {
-    return chainId === ChainId.XDAI || chainId === ChainId.RINKEBY
+    return chainId === ChainId.GNOSIS || chainId === ChainId.RINKEBY
   }
 }
