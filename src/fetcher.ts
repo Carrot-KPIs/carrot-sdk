@@ -14,7 +14,7 @@ import { gql } from '@apollo/client'
 const TOKEN_CACHE: { [chainId in ChainId]: { [address: string]: Token } } = {
   [ChainId.MAINNET]: {},
   [ChainId.RINKEBY]: {},
-  [ChainId.XDAI]: {},
+  [ChainId.GNOSIS]: {},
 }
 
 export abstract class Fetcher {

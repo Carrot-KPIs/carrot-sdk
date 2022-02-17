@@ -277,6 +277,6 @@ export class Honeyswap implements DexPlatform {
   }
 
   public supportsChain(chainId: ChainId): boolean {
-    return chainId === ChainId.XDAI
+    return chainId === ChainId.GNOSIS
   }
 }

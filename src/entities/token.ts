@@ -22,8 +22,8 @@ export class Token extends Currency {
       'WETH',
       'Wrapped Ether'
     ),
-    [ChainId.XDAI]: new Token(
-      ChainId.XDAI,
+    [ChainId.GNOSIS]: new Token(
+      ChainId.GNOSIS,
       '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1',
       18,
       'WETH',
@@ -32,13 +32,13 @@ export class Token extends Currency {
   }
 
   public static readonly WXDAI: { [key: number]: Token } = {
-    [ChainId.XDAI]: new Token(ChainId.XDAI, '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d', 18, 'WXDAI', 'Wrapped xDAI'),
+    [ChainId.GNOSIS]: new Token(ChainId.GNOSIS, '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d', 18, 'WXDAI', 'Wrapped xDAI'),
   }
 
   private static readonly NATIVE_CURRENCY_WRAPPER: { [chainId in ChainId]: Token } = {
     [ChainId.MAINNET]: Token.WETH[ChainId.MAINNET],
     [ChainId.RINKEBY]: Token.WETH[ChainId.RINKEBY],
-    [ChainId.XDAI]: Token.WXDAI[ChainId.XDAI],
+    [ChainId.GNOSIS]: Token.WXDAI[ChainId.GNOSIS],
   }
 
   public constructor(chainId: ChainId, address: string, decimals: number, symbol: string, name: string) {

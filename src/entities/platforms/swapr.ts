@@ -281,6 +281,6 @@ export class Swapr implements DexPlatform {
   }
 
   public supportsChain(chainId: ChainId): boolean {
-    return chainId === ChainId.XDAI || chainId === ChainId.RINKEBY
+    return chainId === ChainId.GNOSIS || chainId === ChainId.RINKEBY
   }
 }
