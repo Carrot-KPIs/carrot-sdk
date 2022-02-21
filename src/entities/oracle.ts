@@ -1,6 +1,7 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { OracleTemplateSpecification } from './template-specification'
 import { ChainId } from '../commons/constants'
+import { TemplateVersion } from './template-version'
 
 export enum OracleDataType {
   REALITY,
@@ -34,6 +35,7 @@ export class Oracle {
     public readonly chainId: ChainId,
     public readonly address: string,
     public readonly templateId: number,
+    public readonly templateVersion: TemplateVersion,
     public readonly templateSpecification: OracleTemplateSpecification,
     public readonly finalized: boolean,
     public readonly data: OracleData

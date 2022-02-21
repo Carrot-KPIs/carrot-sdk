@@ -7,6 +7,7 @@ import { Token } from './token'
 import { TvlPlatform } from '..'
 import { TokenMarketCapPlatform } from './platforms/abstraction/token-market-cap'
 import { TokenPricePlatform } from './platforms/abstraction/token-price'
+import { TemplateVersion } from './template-version'
 
 enum Widget {
   TOKEN_MARKET_CAP,
@@ -100,6 +101,7 @@ export class KpiToken {
     public readonly chainId: ChainId,
     public readonly address: string,
     public readonly templateId: number,
+    public readonly templateVersion: TemplateVersion,
     public readonly templateSpecification: KpiTokenTemplateSpecification,
     public readonly oracles: Oracle[],
     public readonly description: KpiTokenDescription,
