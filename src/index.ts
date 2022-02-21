@@ -25,6 +25,7 @@ export * from './entities/currency'
 export * from './entities/kpi-token'
 export * from './entities/oracle'
 export * from './entities/template-specification'
+export * from './entities/template-version'
 export * from './entities/token'
 
 export * from './utils'
