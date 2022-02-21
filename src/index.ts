@@ -18,6 +18,7 @@ export * from './entities/platforms/mochi'
 export * from './entities/platforms/swapr'
 export * from './entities/platforms/uniswap-v2'
 
+export * from './entities/decoders'
 export * from './entities/amount'
 export * from './entities/chart-data-point'
 export * from './entities/currency'
@@ -28,5 +29,4 @@ export * from './entities/token'
 
 export * from './utils'
 
-export * from './decoder'
 export * from './fetcher'

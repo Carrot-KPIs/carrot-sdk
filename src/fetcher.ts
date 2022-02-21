@@ -20,7 +20,7 @@ import { BLOCK_SUBGRAPH_CLIENTS } from './commons/graphql'
 import { AddressZero } from '@ethersproject/constants'
 import { KpiToken, KpiTokenDescription } from './entities/kpi-token'
 import { Cacher } from './cacher'
-import { Decoder } from './decoder'
+import { Decoder } from './entities/decoders'
 import { OracleTemplateSpecification, KpiTokenTemplateSpecification } from './entities/template-specification'
 import { Oracle } from './entities/oracle'
 import { gql } from '@apollo/client'
@@ -344,6 +344,7 @@ export abstract class Fetcher {
           oracleTemplateSpecifications[specification],
           ORACLE_INTERFACE.decodeFunctionResult(ORACLE_FINALIZED_FUNCTION, oraclesResult[i * 3 + 1])[0],
           await Decoder.decodeOracleData(
+            chainId,
             templateId.toNumber(),
             ORACLE_INTERFACE.decodeFunctionResult(ORACLE_DATA_FUNCTION, oraclesResult[i * 3 + 2])[0],
             provider
@@ -439,6 +440,7 @@ export abstract class Fetcher {
         oracleTemplateSpecifications[specification],
         ORACLE_INTERFACE.decodeFunctionResult(ORACLE_FINALIZED_FUNCTION, oraclesResult[i * 3 + 1])[0],
         await Decoder.decodeOracleData(
+          chainId,
           templateId.toNumber(),
           ORACLE_INTERFACE.decodeFunctionResult(ORACLE_DATA_FUNCTION, oraclesResult[i * 3 + 2])[0],
           provider
