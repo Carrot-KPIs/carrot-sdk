@@ -1,10 +1,8 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '../../../commons/constants'
-import { OracleDataDecoder } from '..'
-import { OracleDataType } from '../../oracle'
-
-export const TEMPLATE_ID = 2
+import { ChainId } from '../../../../commons/constants'
+import { OracleDataDecoder } from '../'
+import { OracleDataType } from '../../../oracle'
 
 export const decodeData: OracleDataDecoder = async (_chainId: ChainId, data: string, _provider: Web3Provider) => {
   const [refreshRate, startsAt, endsAt, pair, token0, price, timestamp] = defaultAbiCoder.decode(

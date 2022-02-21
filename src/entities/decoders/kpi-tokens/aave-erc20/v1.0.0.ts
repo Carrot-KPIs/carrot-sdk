@@ -1,13 +1,11 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '../../../commons/constants'
-import { KpiTokenDataDecoder } from '..'
-import { Fetcher } from '../../../fetcher'
-import { Amount } from '../../amount'
-import { Token } from '../../token'
-import { KpiTokenDataType } from '../../kpi-token'
-
-export const TEMPLATE_ID = 1
+import { ChainId } from '../../../../commons/constants'
+import { KpiTokenDataDecoder } from '../'
+import { Fetcher } from '../../../../fetcher'
+import { Amount } from '../../../amount'
+import { Token } from '../../../token'
+import { KpiTokenDataType } from '../../../kpi-token'
 
 export const decodeData: KpiTokenDataDecoder = async (chainId: ChainId, data: string, provider: Web3Provider) => {
   const [

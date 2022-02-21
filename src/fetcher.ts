@@ -332,20 +332,23 @@ export abstract class Fetcher {
     const oracles = []
     for (let i = 0; i < kpiTokenOracleAddresses.length; i++) {
       const oracleAddress = kpiTokenOracleAddresses[i]
-      const { id: templateId, specification } = ORACLE_INTERFACE.decodeFunctionResult(
-        ORACLE_TEMPLATE_FUNCTION,
-        oraclesResult[i * 3]
-      )[0]
+      const {
+        id: templateId,
+        specification,
+        version,
+      } = ORACLE_INTERFACE.decodeFunctionResult(ORACLE_TEMPLATE_FUNCTION, oraclesResult[i * 3])[0]
       oracles.push(
         new Oracle(
           chainId,
           oracleAddress,
           templateId,
+          version,
           oracleTemplateSpecifications[specification],
           ORACLE_INTERFACE.decodeFunctionResult(ORACLE_FINALIZED_FUNCTION, oraclesResult[i * 3 + 1])[0],
           await Decoder.decodeOracleData(
             chainId,
             templateId.toNumber(),
+            version,
             ORACLE_INTERFACE.decodeFunctionResult(ORACLE_DATA_FUNCTION, oraclesResult[i * 3 + 2])[0],
             provider
           )
@@ -358,11 +361,12 @@ export abstract class Fetcher {
       chainId,
       address,
       kpiTokenTemplateId,
+      kpiTokenTemplate.version,
       kpiTokenTemplateSpecification,
       oracles,
       kpiTokenDescription,
       kpiTokenFinalized,
-      await Decoder.decodeKpiTokenData(chainId, kpiTokenTemplateId, kpiTokenData, provider)
+      await Decoder.decodeKpiTokenData(chainId, kpiTokenTemplateId, kpiTokenTemplate.version, kpiTokenData, provider)
     )
   }
 
@@ -429,19 +433,22 @@ export abstract class Fetcher {
     const oracles: { [address: string]: Oracle } = {}
     for (let i = 0; i < allOracleAddresses.length; i++) {
       const oracleAddress = allOracleAddresses[i]
-      const { id: templateId, specification } = ORACLE_INTERFACE.decodeFunctionResult(
-        ORACLE_TEMPLATE_FUNCTION,
-        oraclesResult[i * 3]
-      )[0]
+      const {
+        id: templateId,
+        specification,
+        version,
+      } = ORACLE_INTERFACE.decodeFunctionResult(ORACLE_TEMPLATE_FUNCTION, oraclesResult[i * 3])[0]
       oracles[oracleAddress] = new Oracle(
         chainId,
         oracleAddress,
         templateId,
+        version,
         oracleTemplateSpecifications[specification],
         ORACLE_INTERFACE.decodeFunctionResult(ORACLE_FINALIZED_FUNCTION, oraclesResult[i * 3 + 1])[0],
         await Decoder.decodeOracleData(
           chainId,
           templateId.toNumber(),
+          version,
           ORACLE_INTERFACE.decodeFunctionResult(ORACLE_DATA_FUNCTION, oraclesResult[i * 3 + 2])[0],
           provider
         )
@@ -480,11 +487,18 @@ export abstract class Fetcher {
           chainId,
           tokenAddresses[i],
           kpiTokenTemplateId,
+          kpiTokenTemplate.version,
           kpiTokenTemplateSpecifications[kpiTokenTemplate.specification],
           kpiTokenOracles,
           kpiTokenDescriptions[kpiTokenDescriptionCid],
           kpiTokenFinalized,
-          await Decoder.decodeKpiTokenData(chainId, kpiTokenTemplateId, kpiTokenData, provider)
+          await Decoder.decodeKpiTokenData(
+            chainId,
+            kpiTokenTemplateId,
+            kpiTokenTemplate.version,
+            kpiTokenData,
+            provider
+          )
         )
       )
     }
