@@ -45,6 +45,28 @@
             "type": "address"
           },
           {
+            "components": [
+              {
+                "internalType": "uint32",
+                "name": "major",
+                "type": "uint32"
+              },
+              {
+                "internalType": "uint32",
+                "name": "minor",
+                "type": "uint32"
+              },
+              {
+                "internalType": "uint32",
+                "name": "patch",
+                "type": "uint32"
+              }
+            ],
+            "internalType": "struct IOraclesManager.Version",
+            "name": "version",
+            "type": "tuple"
+          },
+          {
             "internalType": "string",
             "name": "specification",
             "type": "string"
@@ -103,6 +125,28 @@
             "internalType": "address",
             "name": "addrezz",
             "type": "address"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint32",
+                "name": "major",
+                "type": "uint32"
+              },
+              {
+                "internalType": "uint32",
+                "name": "minor",
+                "type": "uint32"
+              },
+              {
+                "internalType": "uint32",
+                "name": "patch",
+                "type": "uint32"
+              }
+            ],
+            "internalType": "struct IOraclesManager.Version",
+            "name": "version",
+            "type": "tuple"
           },
           {
             "internalType": "string",

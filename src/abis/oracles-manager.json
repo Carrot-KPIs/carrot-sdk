@@ -25,6 +25,11 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_creator",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "_id",
         "type": "uint256"
@@ -126,6 +131,28 @@
             "type": "address"
           },
           {
+            "components": [
+              {
+                "internalType": "uint32",
+                "name": "major",
+                "type": "uint32"
+              },
+              {
+                "internalType": "uint32",
+                "name": "minor",
+                "type": "uint32"
+              },
+              {
+                "internalType": "uint32",
+                "name": "patch",
+                "type": "uint32"
+              }
+            ],
+            "internalType": "struct IOraclesManager.Version",
+            "name": "version",
+            "type": "tuple"
+          },
+          {
             "internalType": "string",
             "name": "specification",
             "type": "string"
@@ -190,6 +217,28 @@
             "type": "address"
           },
           {
+            "components": [
+              {
+                "internalType": "uint32",
+                "name": "major",
+                "type": "uint32"
+              },
+              {
+                "internalType": "uint32",
+                "name": "minor",
+                "type": "uint32"
+              },
+              {
+                "internalType": "uint32",
+                "name": "patch",
+                "type": "uint32"
+              }
+            ],
+            "internalType": "struct IOraclesManager.Version",
+            "name": "version",
+            "type": "tuple"
+          },
+          {
             "internalType": "string",
             "name": "specification",
             "type": "string"
@@ -242,6 +291,11 @@
         "internalType": "address",
         "name": "_newTemplate",
         "type": "address"
+      },
+      {
+        "internalType": "uint8",
+        "name": "_versionBump",
+        "type": "uint8"
       },
       {
         "internalType": "string",
