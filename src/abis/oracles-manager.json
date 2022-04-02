@@ -35,16 +35,6 @@
         "type": "uint256"
       },
       {
-        "internalType": "address",
-        "name": "_automationFundingToken",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_automationFundingAmount",
-        "type": "uint256"
-      },
-      {
         "internalType": "bytes",
         "name": "_initializationData",
         "type": "bytes"
@@ -66,16 +56,6 @@
       {
         "internalType": "uint256",
         "name": "_id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "_automationFundingToken",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_automationFundingAmount",
         "type": "uint256"
       },
       {
@@ -104,6 +84,19 @@
       }
     ],
     "name": "removeTemplate",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_jobsRegistry",
+        "type": "address"
+      }
+    ],
+    "name": "setJobsRegistry",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

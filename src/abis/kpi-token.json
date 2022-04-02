@@ -85,53 +85,14 @@
         "type": "address"
       },
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "addrezz",
-            "type": "address"
-          },
-          {
-            "components": [
-              {
-                "internalType": "uint32",
-                "name": "major",
-                "type": "uint32"
-              },
-              {
-                "internalType": "uint32",
-                "name": "minor",
-                "type": "uint32"
-              },
-              {
-                "internalType": "uint32",
-                "name": "patch",
-                "type": "uint32"
-              }
-            ],
-            "internalType": "struct IKPITokensManager.Version",
-            "name": "version",
-            "type": "tuple"
-          },
-          {
-            "internalType": "string",
-            "name": "specification",
-            "type": "string"
-          },
-          {
-            "internalType": "bool",
-            "name": "exists",
-            "type": "bool"
-          }
-        ],
-        "internalType": "struct IKPITokensManager.Template",
-        "name": "_template",
-        "type": "tuple"
+        "internalType": "address",
+        "name": "_kpiTokensManager",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_kpiTokenTemplateId",
+        "type": "uint256"
       },
       {
         "internalType": "string",
