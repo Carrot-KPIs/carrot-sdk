@@ -2,71 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "_kpiTokensManager",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_oraclesManager",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_feeReceiver",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "inputs": [],
-    "name": "Forbidden",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidIndices",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddressFeeReceiver",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddressKpiTokensManager",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ZeroAddressOraclesManager",
-    "type": "error"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "OwnershipTransferred",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "_id",
         "type": "uint256"
@@ -96,7 +31,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "_address",
         "type": "address"
       }
     ],
@@ -108,7 +43,7 @@
         "type": "bool"
       }
     ],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -133,65 +68,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "feeReceiver",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "kpiTokensManager",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "oraclesManager",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -221,19 +97,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_oraclesManager",
-        "type": "address"
-      }
-    ],
-    "name": "setOraclesManager",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "size",
     "outputs": [
@@ -244,19 +107,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

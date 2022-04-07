@@ -1,13 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { KpiTokenTemplateSpecification } from './template-specification'
-import { Amount } from './amount'
-import { ChainId } from '../commons/constants'
-import { Oracle } from './oracle'
-import { Token } from './token'
-import { TvlPlatform } from '..'
-import { TokenMarketCapPlatform } from './platforms/abstraction/token-market-cap'
-import { TokenPricePlatform } from './platforms/abstraction/token-price'
+import { ChainId, Amount, Token, TvlPlatform, TokenMarketCapPlatform, TokenPricePlatform } from '@carrot-kpi/sdk-core'
 import { TemplateVersion } from './template-version'
+import { Oracle } from './oracle'
 
 enum Widget {
   TOKEN_MARKET_CAP,
@@ -50,6 +45,7 @@ interface WidgetSpecification {
 }
 
 export interface KpiTokenDescription {
+  ipfsHash: string
   title: string
   description: string
   tags: string[]

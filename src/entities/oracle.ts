@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber'
 import { OracleTemplateSpecification } from './template-specification'
-import { ChainId } from '../commons/constants'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { TemplateVersion } from './template-version'
 
 export enum OracleDataType {

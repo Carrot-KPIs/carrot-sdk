@@ -1,7 +1,7 @@
 import { OracleData } from '../oracle'
 import { Web3Provider } from '@ethersproject/providers'
 import { KpiTokenData } from '../kpi-token'
-import { ChainId } from '../../commons/constants'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { KPI_TOKEN_DATA_DECODER } from './kpi-tokens'
 import { ORACLE_DATA_DECODER } from './oracles'
 import { TemplateVersion } from '../template-version'

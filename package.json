@@ -1,9 +1,9 @@
 {
-  "name": "@carrot-kpi/sdk",
+  "name": "@carrot-kpi/v1-sdk",
   "license": "GPL-3.0",
   "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
-  "version": "1.0.0-alpha.7",
-  "description": "An SDK for building applications on top of Carrot.",
+  "version": "1.0.0-rc.1",
+  "description": "An SDK for building applications on top of Carrot v1.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -12,7 +12,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/levelkdev/dxswap-sdk.git",
+  "repository": "https://github.com/carrot-kpi/v1-sdk.git",
   "module": "dist/sdk.esm.js",
   "scripts": {
     "lint": "tsdx lint src test",
@@ -28,6 +28,7 @@
   },
   "peerDependencies": {
     "@apollo/client": "^3.5.7",
+    "@carrot-kpi/sdk-core": "^1.0.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/bignumber": "^5.5.0",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@apollo/client": "^3.5.8",
+    "@carrot-kpi/sdk-core": "^1.0.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/bignumber": "^5.5.0",

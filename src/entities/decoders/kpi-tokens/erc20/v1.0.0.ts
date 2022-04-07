@@ -1,10 +1,8 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '../../../../commons/constants'
+import { ChainId, Amount, Token } from '@carrot-kpi/sdk-core'
 import { KpiTokenDataDecoder } from '../'
 import { Fetcher } from '../../../../fetcher'
-import { Amount } from '../../../amount'
-import { Token } from '../../../token'
 import { KpiTokenDataType } from '../../../kpi-token'
 
 export const decodeData: KpiTokenDataDecoder = async (chainId: ChainId, data: string, provider: Web3Provider) => {

@@ -1,22 +1,10 @@
 import FACTORY_ABI from '../abis/factory.json'
-import ERC20_ABI from '../abis/erc20.json'
 import REALITY_ABI from '../abis/reality.json'
 import KPI_TOKEN_ABI from '../abis/kpi-token.json'
 import ORACLE_ABI from '../abis/oracle.json'
 import KPI_TOKENS_MANAGER_ABI from '../abis/kpi-tokens-manager.json'
 import ORACLES_MANAGER_ABI from '../abis/oracles-manager.json'
-import PERMISSIVE_MULTICALL_ABI from '../abis/permissive-multicall.json'
-
-const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
-const POCKET_ID = '61d8970ca065f5003a112e86'
-
-export const IPFS_GATEWAY = 'https://infura-ipfs.io/ipfs/'
-
-export enum ChainId {
-  MAINNET = 1,
-  RINKEBY = 4,
-  GNOSIS = 100,
-}
+import { POCKET_ID, INFURA_PROJECT_ID, ChainId, PERMISSIVE_MULTICALL_ABI, ERC20_ABI } from '@carrot-kpi/sdk-core'
 
 export const RPC_URL: { [chainId: number]: string } = {
   [ChainId.MAINNET]: `https://eth-mainnet.gateway.pokt.network/v1/lb/${POCKET_ID}`,

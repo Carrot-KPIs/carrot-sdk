@@ -1,4 +1,4 @@
-const PERSISTENCE_NAMESPACE = 'carrot-sdk'
+const PERSISTENCE_NAMESPACE = 'carrot-v1-sdk'
 
 interface CacheItem<T extends object> {
   validUntil: number

@@ -1,65 +1,18 @@
 import { Contract } from '@ethersproject/contracts'
 import { Web3Provider } from '@ethersproject/providers'
 import { Interface } from '@ethersproject/abi'
-import {
-  PERMISSIVE_MULTICALL_ADDRESS,
-  PERMISSIVE_MULTICALL_ABI,
-  FACTORY_ADDRESS,
-  ChainId,
-  IPFS_GATEWAY,
-} from './commons/constants'
-import { Token } from './entities/token'
-import ERC20_ABI from './abis/erc20.json'
-import BYTES_NAME_ERC20_ABI from './abis/erc20-name-bytes.json'
-import BYTES_SYMBOL_ERC20_ABI from './abis/erc20-symbol-bytes.json'
+import { PERMISSIVE_MULTICALL_ADDRESS, PERMISSIVE_MULTICALL_ABI, FACTORY_ADDRESS } from './commons/constants'
+import { ChainId, IPFS_GATEWAY, Fetcher as CoreFetcher } from '@carrot-kpi/sdk-core'
 import KPI_TOKEN_ABI from './abis/kpi-token.json'
 import ORACLE_ABI from './abis/oracle.json'
 import FACTORY_ABI from './abis/factory.json'
 import invariant from 'tiny-invariant'
-import { BLOCK_SUBGRAPH_CLIENTS } from './commons/graphql'
 import { AddressZero } from '@ethersproject/constants'
 import { KpiToken, KpiTokenDescription } from './entities/kpi-token'
 import { Cacher } from './cacher'
 import { Decoder } from './entities/decoders'
 import { OracleTemplateSpecification, KpiTokenTemplateSpecification } from './entities/template-specification'
 import { Oracle } from './entities/oracle'
-import { gql } from '@apollo/client'
-
-// FIXME: consider using localstorage instead of this ephemeral cache
-const TOKEN_CACHE: { [chainId in ChainId]: { [address: string]: Token } } = {
-  [ChainId.MAINNET]: {},
-  [ChainId.RINKEBY]: {},
-  [ChainId.GNOSIS]: {},
-}
-
-// erc20 related interfaces
-const STANDARD_ERC20_INTERFACE = new Interface(ERC20_ABI)
-const BYTES_NAME_ERC20_INTERFACE = new Interface(BYTES_NAME_ERC20_ABI)
-const BYTES_SYMBOL_ERC20_INTERFACE = new Interface(BYTES_SYMBOL_ERC20_ABI)
-
-// erc20 related functions
-const ERC20_NAME_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction('name()')
-const ERC20_SYMBOL_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction('symbol()')
-const ERC20_DECIMALS_FUNCTION = STANDARD_ERC20_INTERFACE.getFunction('decimals()')
-const ERC20_BYTES_NAME_FUNCTION = BYTES_NAME_ERC20_INTERFACE.getFunction('name()')
-const ERC20_BYTES_SYMBOL_FUNCTION = BYTES_SYMBOL_ERC20_INTERFACE.getFunction('symbol()')
-
-// erc20 related function datas
-const ERC20_NAME_FUNCTION_DATA = STANDARD_ERC20_INTERFACE.encodeFunctionData(
-  STANDARD_ERC20_INTERFACE.getFunction('name()')
-)
-const ERC20_SYMBOL_FUNCTION_DATA = STANDARD_ERC20_INTERFACE.encodeFunctionData(
-  STANDARD_ERC20_INTERFACE.getFunction('symbol()')
-)
-const ERC20_DECIMALS_FUNCTION_DATA = STANDARD_ERC20_INTERFACE.encodeFunctionData(
-  STANDARD_ERC20_INTERFACE.getFunction('decimals()')
-)
-const ERC20_BYTES_NAME_FUNCTION_DATA = BYTES_NAME_ERC20_INTERFACE.encodeFunctionData(
-  BYTES_NAME_ERC20_INTERFACE.getFunction('name()')
-)
-const ERC20_BYTES_SYMBOL_FUNCTION_DATA = BYTES_SYMBOL_ERC20_INTERFACE.encodeFunctionData(
-  BYTES_SYMBOL_ERC20_INTERFACE.getFunction('symbol()')
-)
 
 // platform related interfaces
 const KPI_TOKEN_INTERFACE = new Interface(KPI_TOKEN_ABI)
@@ -87,144 +40,7 @@ const ORACLE_TEMPLATE_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(ORACLE
 const ORACLE_FINALIZED_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(ORACLE_FINALIZED_FUNCTION)
 const ORACLE_DATA_FUNCTION_DATA = ORACLE_INTERFACE.encodeFunctionData(ORACLE_DATA_FUNCTION)
 
-export abstract class Fetcher {
-  private constructor() {}
-
-  public static async fetchErc20Tokens(
-    chainId: ChainId,
-    addresses: string[],
-    provider: Web3Provider
-  ): Promise<{ [address: string]: Token }> {
-    const { cachedTokens, missingTokens } = addresses.reduce(
-      (accumulator: { cachedTokens: { [address: string]: Token }; missingTokens: string[] }, address) => {
-        const cachedToken = TOKEN_CACHE[chainId as ChainId][address]
-        if (!!cachedToken) accumulator.cachedTokens[address] = cachedToken
-        else accumulator.missingTokens.push(address)
-        return accumulator
-      },
-      { cachedTokens: {}, missingTokens: [] }
-    )
-    if (missingTokens.length === 0) return cachedTokens
-
-    const permissiveMulticall = new Contract(
-      PERMISSIVE_MULTICALL_ADDRESS[provider.network.chainId as ChainId],
-      PERMISSIVE_MULTICALL_ABI,
-      provider
-    )
-
-    const calls = addresses.flatMap((address: string) => [
-      [address, ERC20_NAME_FUNCTION_DATA],
-      [address, ERC20_SYMBOL_FUNCTION_DATA],
-      [address, ERC20_DECIMALS_FUNCTION_DATA],
-      [address, ERC20_BYTES_NAME_FUNCTION_DATA],
-      [address, ERC20_BYTES_SYMBOL_FUNCTION_DATA],
-    ])
-
-    const result = await permissiveMulticall.aggregateWithPermissiveness(calls)
-    const returnData = result[1]
-    const fetchedTokens = missingTokens.reduce((accumulator: { [address: string]: Token }, missingToken, index) => {
-      const wrappedName = returnData[index * 5]
-      const wrappedSymbol = returnData[index * 5 + 1]
-      const wrappedDecimals = returnData[index * 5 + 2]
-      const wrappedBytesName = returnData[index * 5 + 3]
-      const wrappedBytesSymbol = returnData[index * 5 + 4]
-      if (
-        (!wrappedSymbol.success && !wrappedBytesSymbol.success) ||
-        (!wrappedName.success && wrappedBytesName.success) ||
-        !wrappedDecimals.success
-      ) {
-        console.warn(`could not fetch ERC20 data for address ${missingToken}`)
-        return accumulator
-      }
-
-      let name
-      try {
-        name = STANDARD_ERC20_INTERFACE.decodeFunctionResult(ERC20_NAME_FUNCTION, wrappedName.data)[0]
-      } catch (error) {
-        try {
-          name = BYTES_NAME_ERC20_INTERFACE.decodeFunctionResult(ERC20_BYTES_NAME_FUNCTION, wrappedBytesName.data)[0]
-        } catch (error) {
-          console.warn(`could not decode ERC20 token name for address ${missingToken}`)
-          return accumulator
-        }
-      }
-
-      let symbol
-      try {
-        symbol = STANDARD_ERC20_INTERFACE.decodeFunctionResult(ERC20_SYMBOL_FUNCTION, wrappedSymbol.data)[0]
-      } catch (error) {
-        try {
-          symbol = BYTES_SYMBOL_ERC20_INTERFACE.decodeFunctionResult(
-            ERC20_BYTES_SYMBOL_FUNCTION,
-            wrappedBytesSymbol.data
-          )[0]
-        } catch (error) {
-          console.warn(`could not decode ERC20 token symbol for address ${missingToken}`)
-          return accumulator
-        }
-      }
-
-      try {
-        const token = new Token(
-          chainId,
-          missingToken,
-          STANDARD_ERC20_INTERFACE.decodeFunctionResult(ERC20_DECIMALS_FUNCTION, wrappedDecimals.data)[0],
-          symbol,
-          name
-        )
-        TOKEN_CACHE[chainId as ChainId][missingToken] = token
-        accumulator[missingToken] = token
-      } catch (error) {
-        console.error(`error decoding ERC20 data for address ${missingToken}`)
-        throw error
-      }
-      return accumulator
-    }, {})
-
-    return { ...cachedTokens, ...fetchedTokens }
-  }
-
-  public static blocksFromTimestamps = async (
-    chainId: ChainId,
-    timestamps: number[]
-  ): Promise<{ number: number; timestamp: number }[]> => {
-    if (!timestamps || timestamps.length === 0) return []
-
-    const blocksSubgraph = BLOCK_SUBGRAPH_CLIENTS[chainId]
-    if (!blocksSubgraph) return []
-
-    const promises = timestamps.map((timestamp) =>
-      blocksSubgraph.query<{
-        [timestampString: string]: { number: string }[]
-      }>({
-        query: gql`
-          query blocks {
-              t${timestamp}: blocks(
-                first: 1
-                orderBy: number
-                orderDirection: asc
-                where: { timestamp_gt: ${Math.floor(timestamp / 1000)} }
-              ) {
-              number
-            }
-          }
-        `,
-      })
-    )
-
-    return (await Promise.all(promises)).reduce((accumulator: { timestamp: number; number: number }[], { data }) => {
-      for (const [timestampString, blocks] of Object.entries(data)) {
-        if (blocks.length > 0) {
-          accumulator.push({
-            timestamp: parseInt(timestampString.substring(1)),
-            number: parseInt(blocks[0].number),
-          })
-        }
-      }
-      return accumulator
-    }, [])
-  }
-
+export abstract class Fetcher extends CoreFetcher {
   public static async fetchTemplateSpecifications<
     T extends OracleTemplateSpecification | KpiTokenTemplateSpecification
   >(cids: string[]): Promise<{ [cid: string]: T }> {
@@ -264,7 +80,13 @@ export abstract class Fetcher {
         uncachedCids.map(async (templateCid: string) => {
           const response = await fetch(IPFS_GATEWAY + templateCid)
           if (!response.ok) throw new Error(`could not fetch kpi token description with cid ${templateCid}`)
-          return [templateCid, await response.json()]
+          return [
+            templateCid,
+            {
+              ipfsHash: templateCid,
+              ...(await response.json()),
+            },
+          ]
         })
       )
       for (const [cid, description] of uncachedDescriptions) {
@@ -327,7 +149,9 @@ export abstract class Fetcher {
       await Fetcher.fetchTemplateSpecifications<KpiTokenTemplateSpecification>([kpiTokenTemplate.specification])
     )[kpiTokenTemplate.specification]
 
-    const kpiTokenDescription = (await Fetcher.fetchKpiTokenDescriptions([kpiTokenDescriptionCid]))[0]
+    const kpiTokenDescription = (await Fetcher.fetchKpiTokenDescriptions([kpiTokenDescriptionCid]))[
+      kpiTokenDescriptionCid
+    ]
 
     const oracles = []
     for (let i = 0; i < kpiTokenOracleAddresses.length; i++) {

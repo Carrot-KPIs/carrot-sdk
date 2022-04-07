@@ -1,4 +1,4 @@
-import { ChainId } from '../../../commons/constants'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { OracleData } from '../../oracle'
 import {
   TEMPLATE_ID as MANUAL_REALITY_TEMPLATE_ID,

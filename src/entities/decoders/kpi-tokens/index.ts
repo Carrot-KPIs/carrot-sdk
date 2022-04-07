@@ -1,4 +1,4 @@
-import { ChainId } from '../../../commons/constants'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { KpiTokenData } from '../../kpi-token'
 
 import { TEMPLATE_ID as ERC20_TEMPLATE_ID, VERSION_DECODER as erc20VersionDecoder } from './erc20'

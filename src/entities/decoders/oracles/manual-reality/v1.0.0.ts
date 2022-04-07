@@ -1,6 +1,6 @@
 import { defaultAbiCoder } from '@ethersproject/abi'
 import { Web3Provider } from '@ethersproject/providers'
-import { ChainId } from '../../../../commons/constants'
+import { ChainId } from '@carrot-kpi/sdk-core'
 import { OracleDataDecoder } from '../'
 import { OracleDataType } from '../../../oracle'
 
