@@ -28,6 +28,7 @@
   },
   "peerDependencies": {
     "@apollo/client": "^3.5.7",
+    "@carrot-kpi/sdk-core": "^1.0.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/bignumber": "^5.5.0",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@apollo/client": "^3.5.8",
+    "@carrot-kpi/sdk-core": "^1.0.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/bignumber": "^5.5.0",

@@ -1,17 +1,7 @@
 import FACTORY_ABI from '../abis/factory.json'
-import ERC20_ABI from '../abis/erc20.json'
 import REALITY_ABI from '../abis/reality.json'
 import KPI_TOKEN_ABI from '../abis/kpi-token.json'
-import PERMISSIVE_MULTICALL_ABI from '../abis/permissive-multicall.json'
-
-const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
-const POCKET_ID = '61d8970ca065f5003a112e86'
-
-export enum ChainId {
-  MAINNET = 1,
-  RINKEBY = 4,
-  GNOSIS = 100,
-}
+import { ChainId, POCKET_ID, INFURA_PROJECT_ID, PERMISSIVE_MULTICALL_ABI } from '@carrot-kpi/sdk-core'
 
 export const RPC_URL: { [chainId: number]: string } = {
   [ChainId.MAINNET]: `https://eth-mainnet.gateway.pokt.network/v1/lb/${POCKET_ID}`,
@@ -37,4 +27,4 @@ export const PERMISSIVE_MULTICALL_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.GNOSIS]: '0x4E75068ED2338fCa56631E740B0723A6dbc1d5CD',
 }
 
-export { FACTORY_ABI, REALITY_ABI, ERC20_ABI, KPI_TOKEN_ABI, PERMISSIVE_MULTICALL_ABI }
+export { FACTORY_ABI, REALITY_ABI, KPI_TOKEN_ABI, PERMISSIVE_MULTICALL_ABI }
