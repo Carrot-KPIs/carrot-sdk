@@ -1,23 +1,7 @@
 import FACTORY_ABI from '../abis/factory.json'
-import ERC20_ABI from '../abis/erc20.json'
 import REALITY_ABI from '../abis/reality.json'
 import KPI_TOKEN_ABI from '../abis/kpi-token.json'
-import PERMISSIVE_MULTICALL_ABI from '../abis/permissive-multicall.json'
-
-const INFURA_PROJECT_ID = '0ebf4dd05d6740f482938b8a80860d13'
-const POCKET_ID = '61d8970ca065f5003a112e86'
-
-export enum ChainId {
-  MAINNET = 1,
-  RINKEBY = 4,
-  GNOSIS = 100,
-}
-
-export const RPC_URL: { [chainId: number]: string } = {
-  [ChainId.MAINNET]: `https://eth-mainnet.gateway.pokt.network/v1/lb/${POCKET_ID}`,
-  [ChainId.RINKEBY]: `https://rinkeby.infura.io/v3/${INFURA_PROJECT_ID}`,
-  [ChainId.GNOSIS]: `https://poa-xdai.gateway.pokt.network/v1/lb/${POCKET_ID}`,
-}
+import { ChainId } from '@carrot-kpi/sdk-core'
 
 export const FACTORY_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.MAINNET]: '0x0000000000000000000000000000000000000000',
@@ -31,10 +15,4 @@ export const REALITY_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.GNOSIS]: '0x79e32aE03fb27B07C89c0c568F80287C01ca2E57',
 }
 
-export const PERMISSIVE_MULTICALL_ADDRESS: { [chainId in ChainId]: string } = {
-  [ChainId.MAINNET]: '0x0946f567d0ed891e6566c1da8e5093517f43571d',
-  [ChainId.RINKEBY]: '0x798d8ced4dff8f054a5153762187e84751a73344',
-  [ChainId.GNOSIS]: '0x4E75068ED2338fCa56631E740B0723A6dbc1d5CD',
-}
-
-export { FACTORY_ABI, REALITY_ABI, ERC20_ABI, KPI_TOKEN_ABI, PERMISSIVE_MULTICALL_ABI }
+export { FACTORY_ABI, REALITY_ABI, KPI_TOKEN_ABI }

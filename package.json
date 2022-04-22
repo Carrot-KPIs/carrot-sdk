@@ -1,8 +1,8 @@
 {
-  "name": "@carrot-kpi/sdk",
+  "name": "@carrot-kpi/alpha-sdk",
   "license": "GPL-3.0",
   "author": "Federico Luzzi <fedeluzzi00@gmail.com>",
-  "version": "1.0.0-alpha.8",
+  "version": "1.0.0",
   "description": "An SDK for building applications on top of Carrot.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -12,7 +12,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/levelkdev/dxswap-sdk.git",
+  "repository": "https://github.com/carrot-kpi/alpha-sdk.git",
   "module": "dist/sdk.esm.js",
   "scripts": {
     "lint": "tsdx lint src test",
@@ -28,28 +28,28 @@
   },
   "peerDependencies": {
     "@apollo/client": "^3.5.7",
+    "@carrot-kpi/sdk-core": "^1.0.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/bignumber": "^5.5.0",
     "@ethersproject/constants": "^5.5.0",
     "@ethersproject/contracts": "^5.5.0",
     "@ethersproject/providers": "^5.5.1",
-    "luxon": "^2.3.0"
+    "luxon": "^2.3.2"
   },
   "devDependencies": {
-    "@apollo/client": "^3.5.8",
+    "@apollo/client": "^3.5.10",
+    "@carrot-kpi/sdk-core": "^1.0.0",
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/address": "^5.5.0",
     "@ethersproject/bignumber": "^5.5.0",
     "@ethersproject/constants": "^5.5.0",
     "@ethersproject/contracts": "^5.5.0",
     "@ethersproject/providers": "^5.5.3",
-    "@ethersproject/units": "^5.5.0",
-    "@types/luxon": "^2.0.9",
+    "@types/luxon": "^2.3.1",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
-    "graphql": "^16.3.0",
-    "luxon": "^2.3.0",
+    "luxon": "^2.3.2",
     "prettier": "^2.5.1",
     "tsdx": "^0.14.1"
   }
