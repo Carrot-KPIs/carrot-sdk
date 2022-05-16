@@ -1,5 +1,6 @@
 import FACTORY_ABI from '../abis/factory.json'
 import REALITY_ABI from '../abis/reality.json'
+import REALITY_ARBITRATOR_ABI from '../abis/reality-arbitrator.json'
 import KPI_TOKEN_ABI from '../abis/kpi-token.json'
 import { ChainId } from '@carrot-kpi/sdk-core'
 
@@ -15,4 +16,4 @@ export const REALITY_ADDRESS: { [chainId in ChainId]: string } = {
   [ChainId.GNOSIS]: '0x79e32aE03fb27B07C89c0c568F80287C01ca2E57',
 }
 
-export { FACTORY_ABI, REALITY_ABI, KPI_TOKEN_ABI }
+export { FACTORY_ABI, REALITY_ABI, REALITY_ARBITRATOR_ABI, KPI_TOKEN_ABI }

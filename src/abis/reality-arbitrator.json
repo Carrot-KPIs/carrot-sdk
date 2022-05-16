@@ -1,0 +1,44 @@
+[
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "question_id",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getDisputeFee",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "question_id",
+        "type": "bytes32"
+      },
+      {
+        "name": "max_previous",
+        "type": "uint256"
+      }
+    ],
+    "name": "requestArbitration",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  }
+]
